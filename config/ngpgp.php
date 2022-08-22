@@ -8,6 +8,6 @@ return [
      * |
      * |
      */
-    "gnupg_home" => env("GNUPGHOME", "/tmp"),
+    'gnupg_home' => env('GNUPGHOME', '/tmp'),
 
 ];

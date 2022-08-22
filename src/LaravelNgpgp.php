@@ -14,66 +14,68 @@ use phpseclib\Crypt\RSA;
 
 class LaravelNgpgp implements LaravelNgpgpInterface
 {
-  /**
-   * @var array $config
-   */
-  private array $config;
+    /**
+     * @var array
+     */
+    private array $config;
 
-  /**
-   * Create a new class instance.
-   *
-   * @return void
-   */
-  public function __construct($config)
-  {
-    $this->config = $config;
-    echo join($this->config);
-  }
-
-  /**
-   * @param  string  $userId
-   * @return string private key
-   */
-  public function keygen(string $userId): string
-  {
-    $rsa = new RSA();
-    $k = $rsa->createKey(512);
-    $loaded = $rsa->loadKey($k["privatekey"]);
-
-    if ($loaded) {
-      $nKey = new OpenPGP_SecretKeyPacket(array(
-        'n' => $rsa->modulus->toBytes(),
-        'e' => $rsa->publicExponent->toBytes(),
-        'd' => $rsa->exponent->toBytes(),
-        'p' => $rsa->primes[2]->toBytes(),
-        'q' => $rsa->primes[1]->toBytes(),
-        'u' => $rsa->coefficients[2]->toBytes()
-      ));
-      $uid = new OpenPGP_UserIDPacket($userId);
-      $wKey = new OpenPGP_Crypt_RSA($nKey);
-
-      $m = $wKey->sign_key_userid(array($nKey, $uid));
-      // Serialize private key
-      return $m->to_bytes();
+    /**
+     * Create a new class instance.
+     *
+     * @return void
+     */
+    public function __construct($config)
+    {
+        $this->config = $config;
+        echo implode($this->config);
     }
-    return "";
-  }
 
-  /**
-   * en-armored encryption
-   *
-   * @param  string  $publicKey
-   * @param  string  $text
-   * @return string On success, this function returns the encrypted text.
-   *                        On failure, this function returns false.
-   *
-   * @throws Exception
-   */
-  public function encrypt(string $publicKey, string $text): string
-  {
-    $key = OpenPGP_Message::parse($publicKey);
-    $data = new OpenPGP_LiteralDataPacket($text);
-    $encrypted = OpenPGP_Crypt_Symmetric::encrypt($key, new OpenPGP_Message([$data]));
-    return OpenPGP::enarmor($encrypted->to_bytes(), "PGP MESSAGE");
-  }
+    /**
+     * @param  string  $userId
+     * @return string private key
+     */
+    public function keygen(string $userId): string
+    {
+        $rsa = new RSA();
+        $k = $rsa->createKey(512);
+        $loaded = $rsa->loadKey($k['privatekey']);
+
+        if ($loaded) {
+            $nKey = new OpenPGP_SecretKeyPacket([
+                'n' => $rsa->modulus->toBytes(),
+                'e' => $rsa->publicExponent->toBytes(),
+                'd' => $rsa->exponent->toBytes(),
+                'p' => $rsa->primes[2]->toBytes(),
+                'q' => $rsa->primes[1]->toBytes(),
+                'u' => $rsa->coefficients[2]->toBytes(),
+            ]);
+            $uid = new OpenPGP_UserIDPacket($userId);
+            $wKey = new OpenPGP_Crypt_RSA($nKey);
+
+            $m = $wKey->sign_key_userid([$nKey, $uid]);
+            // Serialize private key
+            return $m->to_bytes();
+        }
+
+        return '';
+    }
+
+    /**
+     * en-armored encryption
+     *
+     * @param  string  $publicKey
+     * @param  string  $text
+     * @return string On success, this function returns the encrypted text.
+     *                        On failure, this function returns false.
+     *
+     * @throws Exception
+     */
+    public function encrypt(string $publicKey, string $text): string
+    {
+        $key = OpenPGP_Message::parse($publicKey);
+        $data = new OpenPGP_LiteralDataPacket($text);
+        $encrypted = OpenPGP_Crypt_Symmetric::encrypt($key, new OpenPGP_Message([$data]));
+
+        return OpenPGP::enarmor($encrypted->to_bytes(), 'PGP MESSAGE');
+    }
 }
