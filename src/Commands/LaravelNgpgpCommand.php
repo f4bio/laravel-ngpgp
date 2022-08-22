@@ -6,13 +6,13 @@ use Illuminate\Console\Command;
 
 class LaravelNgpgpCommand extends Command
 {
-    public $signature = 'laravel-ngpgp';
+    public $signature = "laravel-ngpgp";
 
-    public $description = 'My command';
+    public $description = "My command";
 
     public function handle(): int
     {
-        $this->comment('All done');
+        $this->comment("All done");
 
         return self::SUCCESS;
     }
