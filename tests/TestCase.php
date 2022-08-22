@@ -2,9 +2,9 @@
 
 namespace F4bio\LaravelNgpgp\Tests;
 
+use F4bio\LaravelNgpgp\LaravelNgpgpServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use F4bio\LaravelNgpgp\LaravelNgpgpServiceProvider;
 
 class TestCase extends Orchestra
 {

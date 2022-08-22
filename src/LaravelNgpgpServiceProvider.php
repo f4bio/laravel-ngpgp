@@ -2,9 +2,9 @@
 
 namespace F4bio\LaravelNgpgp;
 
+use F4bio\LaravelNgpgp\Commands\LaravelNgpgpCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use F4bio\LaravelNgpgp\Commands\LaravelNgpgpCommand;
 
 class LaravelNgpgpServiceProvider extends PackageServiceProvider
 {
