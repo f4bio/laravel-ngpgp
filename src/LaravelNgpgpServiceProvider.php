@@ -16,10 +16,10 @@ class LaravelNgpgpServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-      ->name('laravel-ngpgp')
-      ->hasConfigFile()
-      ->hasViews()
-      ->hasMigration('create_laravel-ngpgp_table')
-      ->hasCommand(LaravelNgpgpCommand::class);
+            ->name('laravel-ngpgp')
+            ->hasConfigFile()
+            ->hasViews()
+            ->hasMigration('create_laravel-ngpgp_table')
+            ->hasCommand(LaravelNgpgpCommand::class);
     }
 }
