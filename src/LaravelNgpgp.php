@@ -14,9 +14,6 @@ use phpseclib\Crypt\RSA;
 
 class LaravelNgpgp implements LaravelNgpgpInterface
 {
-    /**
-     * @var array
-     */
     private array $config;
 
     /**
@@ -31,7 +28,6 @@ class LaravelNgpgp implements LaravelNgpgpInterface
     }
 
     /**
-     * @param  string  $userId
      * @return string private key
      */
     public function keygen(string $userId): string
@@ -63,8 +59,6 @@ class LaravelNgpgp implements LaravelNgpgpInterface
     /**
      * en-armored encryption
      *
-     * @param  string  $publicKey
-     * @param  string  $text
      * @return string On success, this function returns the encrypted text.
      *                        On failure, this function returns false.
      *
