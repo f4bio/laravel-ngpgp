@@ -49,6 +49,7 @@ class LaravelNgpgp implements LaravelNgpgpInterface
             $wKey = new OpenPGP_Crypt_RSA($nKey);
 
             $m = $wKey->sign_key_userid([$nKey, $uid]);
+
             // Serialize private key
             return $m->to_bytes();
         }
